@@ -13,15 +13,15 @@ import {
   getDoc,
 } from 'firebase/firestore'
 
-const style = {
+const modalStyle = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
-  bgcolor: '# #FF3131',
-  border: '2px solid #FF3131',
-  boxShadow: '0px 0px 15px #FF3131',
+  bgcolor: '#f7f7f7',
+  border: 'none',
+  boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.2)',
   p: 4,
   display: 'flex',
   flexDirection: 'column',
@@ -43,7 +43,7 @@ export default function Home() {
     })
     setInventory(inventoryList)
   }
-  
+
   useEffect(() => {
     updateInventory()
   }, [])
@@ -59,7 +59,7 @@ export default function Home() {
     }
     await updateInventory()
   }
-  
+
   const removeItem = async (item) => {
     const docRef = doc(collection(firestore, 'inventory'), item)
     const docSnap = await getDoc(docRef)
@@ -81,11 +81,11 @@ export default function Home() {
     <Box 
       width="100vw"
       height="100vh"
-      display={'flex'}
-      bgcolor={'#121212'}
-      justifyContent={'center'}
-      flexDirection={'column'}
-      alignItems={'center'}
+      display="flex"
+      bgcolor="#e0e0e0"
+      justifyContent="center"
+      flexDirection="column"
+      alignItems="center"
       gap={2}
     >
       <Modal
@@ -94,11 +94,11 @@ export default function Home() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" color={'#FF3131'} textAlign={'center'}>
+        <Box sx={modalStyle}>
+          <Typography id="modal-modal-title" variant="h6" component="h2" color="#00796b" textAlign="center">
             Add Item
           </Typography>
-          <Stack width="100%" direction={'row'} spacing={2}>
+          <Stack width="100%" direction="row" spacing={2}>
             <TextField
               id="outlined-basic"
               label="Item"
@@ -106,10 +106,6 @@ export default function Home() {
               fullWidth
               value={itemName}
               onChange={(e) => setItemName(e.target.value)}
-              InputLabelProps={{ style: { color: '#FF3131' } }}
-              InputProps={{
-                style: { color: '#FF3131', borderColor: '#FF3131' },
-              }}
             />
             <Button
               variant="contained"
@@ -119,12 +115,11 @@ export default function Home() {
                 handleClose()
               }}
               sx={{
-                bgcolor: '#FF3131',
-                color: '# #FF3131',
+                bgcolor: '#00796b',
+                color: '#fff',
                 '&:hover': {
-                  bgcolor: '#00ccbb',
+                  bgcolor: '#004d40',
                 },
-                boxShadow: '0px 0px 10px #FF3131',
               }}
             >
               Add
@@ -136,60 +131,58 @@ export default function Home() {
         variant="contained" 
         onClick={handleOpen}
         sx={{
-          bgcolor: '#FF3131',
-          color: '# #FF3131',
+          bgcolor: '#00796b',
+          color: '#fff',
           '&:hover': {
-            bgcolor: '#00ccbb',
+            bgcolor: '#004d40',
           },
-          boxShadow: '0px 0px 10px #FF3131',
         }}
       >
         Add New Item
       </Button>
-      <Box border={'1px solid #FF3131'} boxShadow={'0px 0px 15px #FF3131'} borderRadius={'10px'}>
+      <Box border="1px solid #ccc" boxShadow="0px 0px 15px rgba(0, 0, 0, 0.2)" borderRadius="10px">
         <Box
           width="800px"
           height="100px"
-          bgcolor={'# #FF3131'}
-          display={'flex'}
-          justifyContent={'center'}
-          alignItems={'center'}
-          borderRadius={'10px 10px 0 0'}
+          bgcolor="#00796b"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          borderRadius="10px 10px 0 0"
         >
-          <Typography variant={'h2'} color={'#FF3131'} textAlign={'center'}>
+          <Typography variant="h4" color="#fff" textAlign="center">
             Inventory Items
           </Typography>
         </Box>
-        <Stack width="800px" height="300px" spacing={2} overflow={'auto'} bgcolor={'#181818'} borderRadius={'0 0 10px 10px'}>
-          {inventory.map(({name, quantity}) => (
+        <Stack width="800px" height="300px" spacing={2} overflow="auto" bgcolor="#f7f7f7" borderRadius="0 0 10px 10px" p={2}>
+          {inventory.map(({ name, quantity }) => (
             <Box
               key={name}
               width="100%"
-              minHeight="150px"
-              display={'flex'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              bgcolor={'#232323'}
-              paddingX={5}
-              borderRadius={'10px'}
-              boxShadow={'0px 0px 10px #FF3131'}
+              minHeight="50px"
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              bgcolor="#e0e0e0"
+              paddingX={3}
+              borderRadius="10px"
+              boxShadow="0px 0px 5px rgba(0, 0, 0, 0.1)"
             >
-              <Typography variant={'h3'} color={'#FF3131'} textAlign={'center'}>
+              <Typography variant="h6" color="#00796b" textAlign="center">
                 {name.charAt(0).toUpperCase() + name.slice(1)}
               </Typography>
-              <Typography variant={'h3'} color={'#FF3131'} textAlign={'center'}>
+              <Typography variant="h6" color="#00796b" textAlign="center">
                 Quantity: {quantity}
               </Typography>
               <Button 
                 variant="contained" 
                 onClick={() => addItem(name)}
                 sx={{
-                  bgcolor: '#FF3131',
-                  color: '#FF3131',
+                  bgcolor: '#00796b',
+                  color: '#fff',
                   '&:hover': {
-                    bgcolor: '#00ccbb',
+                    bgcolor: '#004d40',
                   },
-                  boxShadow: '0px 0px 10px #FF3131',
                 }}
               >
                 Add
@@ -198,12 +191,11 @@ export default function Home() {
                 variant="contained" 
                 onClick={() => removeItem(name)}
                 sx={{
-                  bgcolor: '#FF3131',
-                  color: '#FF3131',
+                  bgcolor: '#c62828',
+                  color: '#fff',
                   '&:hover': {
-                    bgcolor: '#00ccbb',
+                    bgcolor: '#8e0000',
                   },
-                  boxShadow: '0px 0px 10px #FF3131',
                 }}
               >
                 Remove
@@ -215,3 +207,4 @@ export default function Home() {
     </Box>
   )
 }
+
